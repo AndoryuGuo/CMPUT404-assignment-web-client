@@ -96,27 +96,34 @@ class HTTPClient(object):
         return header
 
     def GET(self, url, args=None):
-        self.hostname, self.port, self.path = self.urlParser(url)
-        self.connect(self.hostname, self.port)
-        req_data = self.set_request_header("GET")
-        self.sendall(req_data)
-        res_data = self.recvall(self.socket)
-        code = self.get_code(res_data)
-        body = self.get_body(res_data)
-        self.close()
-        
+        try:
+            self.hostname, self.port, self.path = self.urlParser(url)
+            self.connect(self.hostname, self.port)
+            req_data = self.set_request_header("GET")
+            self.sendall(req_data)
+            res_data = self.recvall(self.socket)
+            code = self.get_code(res_data)
+            body = self.get_body(res_data)
+            self.close()
+        except Exception as e:
+            return HTTPResponse(500, e)
+
         return HTTPResponse(code, body)
 
     def POST(self, url, args=None):
-        self.hostname, self.port, self.path = self.urlParser(url)
-        self.connect(self.hostname, self.port)
-        queryStr = self.urlencoder(args)
-        req_data = self.set_request_header("POST", length=len(queryStr), body=queryStr)
-        self.sendall(req_data)
-        res_data = self.recvall(self.socket)
-        code = self.get_code(res_data)
-        body = self.get_body(res_data)
-        self.close()
+        try:
+            self.hostname, self.port, self.path = self.urlParser(url)
+            self.connect(self.hostname, self.port)
+            queryStr = self.urlencoder(args)
+            req_data = self.set_request_header("POST", length=len(queryStr), body=queryStr)
+            self.sendall(req_data)
+            res_data = self.recvall(self.socket)
+            code = self.get_code(res_data)
+            body = self.get_body(res_data)
+            self.close()
+        except Exception as e:
+            return HTTPResponse(500, e)
+
         return HTTPResponse(code, body)
 
     def command(self, url, command="GET", args=None):
