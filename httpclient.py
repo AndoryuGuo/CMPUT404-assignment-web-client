@@ -106,7 +106,7 @@ class HTTPClient(object):
             body = self.get_body(res_data)
             self.close()
         except Exception as e:
-            return HTTPResponse(500, e)
+            return HTTPResponse(404, e)
 
         return HTTPResponse(code, body)
 
@@ -122,7 +122,7 @@ class HTTPClient(object):
             body = self.get_body(res_data)
             self.close()
         except Exception as e:
-            return HTTPResponse(500, e)
+            return HTTPResponse(404, e)
 
         return HTTPResponse(code, body)
 
