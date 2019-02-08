@@ -104,6 +104,7 @@ class HTTPClient(object):
             res_data = self.recvall(self.socket)
             code = self.get_code(res_data)
             body = self.get_body(res_data)
+            print(res_data)
             self.close()
         except Exception as e:
             return HTTPResponse(404, e)
